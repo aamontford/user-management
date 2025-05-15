@@ -18,15 +18,15 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const salt = await bcrypt.genSalt(10); 
-    const hashedPassword = await bcrypt.hash(password, salt); 
+const salt = await bcrypt.genSalt(10); 
+const hashedPassword = await bcrypt.hash(password, salt); 
 
-    const newUser = new User({ name, email, password: hashedPassword, role });
-    await newUser.save();
+const newUser = new User({ name, email, password: hashedPassword, role });
+await newUser.save();
 
-    numberOfRegisteredUsers();
+  numberOfRegisteredUsers();
 
-    res.status(201).json({ message: "User registered successfully" });
+  res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
     console.error("Error during registration:", err.message);
     res.status(500).json({ message: "Server error", error: err.message });
@@ -48,11 +48,10 @@ router.post("/login", async (req, res) => {
       numberOfLoginAttempts('fail');
       return res.status(400).json({ message: "Invalid credentials" });
     }
-
     numberOfLoginAttempts('success');
 
-    const payload = { userId: user._id, role: user.role };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '15m' });
+  const payload = { userId: user._id, role: user.role };
+  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '15m' });
 
     res.status(200).json({ message: "User login successful", token });
   } catch (err) {

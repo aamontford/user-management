@@ -1,31 +1,18 @@
 const express = require("express");
-const { verifyToken, isAdmin } = require("../middleware/authMiddleware");
+const { verifyToken, isAdmin, isRegularUser } = require("../middleware/authMiddleware");
 const { ProtectedRouteAccess } = require('./metrics'); 
-
 const router = express.Router();
 
-// /profile route for logged-in user
-router.get("/profile", verifyToken, (req, res) => {
+//For regular logged in user
+router.get("/profile", verifyToken, isRegularUser, (req, res) => {
   ProtectedRouteAccess();
 
-  const role = req.user.role;
-
-//for admin access only 
-  if (role === 'admin') {
-    return res.json({
-      message: "Welcome Admin",
-      adminId: req.user.userId,
-      iat: req.user.iat,       
-      exp: req.user.exp       
-    });
-  } else {
-    return res.json({ 
-      message: "Welcome User",
-      userId: req.user.userId,
-      iat: req.user.iat,       
-      exp: req.user.exp
-     });
-  }
+  res.json({
+    message: "Welcome User",
+    userId: req.user.userId,
+    iat: req.user.iat,       
+    exp: req.user.exp
+  });
 });
 
 // Admins access only

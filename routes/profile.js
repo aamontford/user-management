@@ -6,7 +6,6 @@ const router = express.Router();
 //For regular logged in user
 router.get("/profile", verifyToken, isRegularUser, (req, res) => {
   ProtectedRouteAccess();
-
   res.json({
     message: "Welcome User",
     userId: req.user.userId,

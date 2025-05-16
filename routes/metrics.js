@@ -32,9 +32,4 @@ const ProtectedRouteAccess = () => {
   protectedRouteAccesses++;
 };
 
-module.exports = {
-  router,
-  numberOfRegisteredUsers,
-  numberOfLoginAttempts,
-  ProtectedRouteAccess
-};
+module.exports = { router, numberOfRegisteredUsers, numberOfLoginAttempts, ProtectedRouteAccess };
